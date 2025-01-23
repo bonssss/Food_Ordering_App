@@ -10,8 +10,8 @@ import ProductListItem from '@/src/components/ProductListItem';
 export default function TabOneScreen() {
   return (
     <View >
-    <ProductListItem  product   ={products[2]}/>
-    <ProductListItem   product   ={products[5]}/>
+    <ProductListItem  product ={products[3]}/>
+    <ProductListItem   product ={products[5]}/>
   </View>
   );
 }
