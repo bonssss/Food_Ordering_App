@@ -30,7 +30,11 @@ const ProductListItem = ({product}:ProductListItemProps) =>{
 export default ProductListItem;
 
 const styles = StyleSheet.create({
+  body:{
+backgroundColor:'white',
+  },
   container: {
+
     backgroundColor:'white',
     padding:10,
     borderRadius:20,
