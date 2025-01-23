@@ -1,4 +1,4 @@
-import { StyleSheet,Image } from 'react-native';
+import { StyleSheet,Image,FlatList } from 'react-native';
 
 import { Text, View } from '@/src/components/Themed';
 
@@ -10,8 +10,12 @@ import ProductListItem from '@/src/components/ProductListItem';
 export default function TabOneScreen() {
   return (
     <View >
-    <ProductListItem  product ={products[3]}/>
-    <ProductListItem   product ={products[5]}/>
+    {/* <ProductListItem  product ={products[3]}/>
+    <ProductListItem   product ={products[5]}/> */}
+    <FlatList
+    data={products}
+    renderItem={({item})=> <ProductListItem  product={item}/> }
+    />
   </View>
   );
 }
