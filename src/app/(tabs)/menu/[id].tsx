@@ -9,10 +9,13 @@ import ProductListItem from '@/src/components/ProductListItem'
 
 export default function productList() {
 
-  const aizes = ['S','M','L','XL']
+  const sizes = ['S','M','L','XL']
   
   const {id} = useLocalSearchParams()
   const product = products.find((product) => product.id.toString() === id);
+  if (!product){
+    return <Text>Product not found</Text>
+  }
 
   return (
     <View style={styles.container}>
@@ -23,9 +26,14 @@ export default function productList() {
       <Text style={styles.title}>{product?.name}</Text>
 
       <Text style={styles.title}>Select Size</Text>
-      {aizes.map((size)=>(
-        <Text key={size} >{size}</Text>
+      <View   style={styles.sizes}>
+      {sizes.map((size)=>(
+        <View key={size}  style={styles.size}> 
+          <Text style={styles.sizeText} >{size}</Text></View>
+        
       ))}
+      </View>
+    
 
 
       <Text style={styles.price}>${product?.price}</Text>
@@ -56,6 +64,23 @@ const styles = StyleSheet.create({
     image:{
       width:'100%',
       aspectRatio:1
+    },
+    sizes:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      marginVertical:10,
+    },
+    size:{
+      backgroundColor:'gray',
+      width:50,
+      aspectRatio:1,
+      borderRadius:'50%',
+      alignItems:'center',
+      justifyContent:'center'
+    },
+    sizeText:{
+      fontSize:20,
+      fontWeight:'500'
     }
 })
 
