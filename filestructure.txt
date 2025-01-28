@@ -1,0 +1,52 @@
+|-- .expo
+    |-- devices.json
+    |-- README.md
+    |-- types
+        |-- router.d.ts
+|-- .gitignore
+|-- app.json
+|-- assets
+    |-- data
+        |-- orders.ts
+        |-- products.ts
+    |-- fonts
+        |-- SpaceMono-Regular.ttf
+    |-- images
+        |-- adaptive-icon.png
+        |-- favicon.png
+        |-- icon.png
+        |-- splash-icon.png
+|-- expo-env.d.ts
+|-- package-lock.json
+|-- package.json
+|-- src
+    |-- app
+        |-- (tabs)
+            |-- index.tsx
+            |-- menu
+                |-- index.tsx
+                |-- [id].tsx
+                |-- _layout.tsx
+            |-- two.tsx
+            |-- _layout.tsx
+        |-- +html.tsx
+        |-- +not-found.tsx
+        |-- modal.tsx
+        |-- _layout.tsx
+    |-- components
+        |-- Button.tsx
+        |-- EditScreenInfo.tsx
+        |-- ExternalLink.tsx
+        |-- ProductListItem.tsx
+        |-- StyledText.tsx
+        |-- Themed.tsx
+        |-- useClientOnlyValue.ts
+        |-- useClientOnlyValue.web.ts
+        |-- useColorScheme.ts
+        |-- useColorScheme.web.ts
+        |-- __tests__
+            |-- StyledText-test.js
+    |-- constants
+        |-- Colors.ts
+    |-- types.ts
+|-- tsconfig.json
