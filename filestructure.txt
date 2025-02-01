@@ -31,10 +31,12 @@
             |-- _layout.tsx
         |-- +html.tsx
         |-- +not-found.tsx
+        |-- cart.tsx
         |-- modal.tsx
         |-- _layout.tsx
     |-- components
         |-- Button.tsx
+        |-- CartListItem.tsx
         |-- EditScreenInfo.tsx
         |-- ExternalLink.tsx
         |-- ProductListItem.tsx
@@ -48,5 +50,7 @@
             |-- StyledText-test.js
     |-- constants
         |-- Colors.ts
+    |-- providers
+        |-- CartProvider.tsx
     |-- types.ts
 |-- tsconfig.json
