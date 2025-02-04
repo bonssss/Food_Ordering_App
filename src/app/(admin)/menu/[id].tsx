@@ -41,34 +41,9 @@ export default function productList() {
       />
       <Text style={styles.title}>{product?.name}</Text>
 
-      <Text style={styles.selectsize}>Select Size</Text>
-      <View style={styles.sizes}>
-        {sizes.map((size) => (
-          <Pressable
-            onPress={() => setSelectedSize(size)}
-            key={size}
-            style={[
-              styles.size,
-              {
-                backgroundColor:
-                  size === selectedSize ? Colors.light.tint : "gainsboro",
-              },
-            ]}
-          >
-            <Text
-              style={[
-                styles.sizeText,
-                { color: size === selectedSize ? "black" : "gray" },
-              ]}
-            >
-              {size}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      
 
       <Text style={styles.price}>${product?.price}</Text>
-      <Button onPress={addToCart} text="Add to Cart" />
     </View>
   );
 }
@@ -93,7 +68,6 @@ selectsize: {
   price: {
     fontSize: 20,
     color: Colors.light.tint,
-    marginTop:'auto',
   },
   image: {
     width: "100%",
