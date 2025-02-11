@@ -22,7 +22,7 @@ export default function cartScreen() {
       <Text style={styles.total}>Total: ${total}</Text>
                   <Button text='Checkout' />
       
-      <StatusBar style="auto" />
+      <StatusBar backgroundColor='#4f3' />
     </View>
   )
 }
