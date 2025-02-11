@@ -1,49 +1,69 @@
-import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { defaultImage } from '@/src/components/ProductListItem';
-import Colors from '../../../constants/Colors';
-import Button from '../../../components/Button';
-import * as ImagePicker from 'expo-image-picker';
-import { Stack, useRouter } from 'expo-router';
+import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
+import React, { useState } from "react";
+import { defaultImage } from "@/src/components/ProductListItem";
+import Colors from "../../../constants/Colors";
+import Button from "../../../components/Button";
+import * as ImagePicker from "expo-image-picker";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 const CreateScreen = () => {
   const [image, setImage] = useState<string | null>(null);
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [errors, setErrors] = useState('');
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [errors, setErrors] = useState("");
+  const { id } = useLocalSearchParams();
+  const isUpdating = !!id;
 
   const router = useRouter();
+  const resetField =()=>{
+    setName("");
+    setPrice("");
+    setImage("");
+    router.back();
+  }
 
   const validateInput = () => {
-    setErrors('');
+    setErrors("");
     if (!name) {
-      setErrors('Name is required');
+      setErrors("Name is required");
       return false;
     }
     if (!price) {
-      setErrors('Price is required');
+      setErrors("Price is required");
       return false;
     }
     if (isNaN(parseFloat(price))) {
-      setErrors('Price should be a number');
+      setErrors("Price should be a number");
       return false;
     }
     return true;
   };
+  const onsubmit = () => {
+    if (isUpdating) {
+      onUpdate();
+    } else {
+      onCreate();
+    }
+  };
 
   const onCreate = () => {
-
     if (!validateInput()) {
       return;
     }
 
-    console.warn('Creating dish: ', name);
-    setName('');
-    setPrice('');
-    setImage('');
-    router.back();
+    console.warn("Creating dish: ", name);
+    resetField();
+   
   };
 
+  const onUpdate= () => {
+    if (!validateInput()) {
+      return;
+    }
+    console.log('updating')
+
+    resetField()
+  }
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -59,9 +79,28 @@ const CreateScreen = () => {
       setImage(result.assets[0].uri);
     }
   };
+
+  const onConfirm =() =>{
+    Alert.alert('Delete','Are sure to delete product',[
+     {
+      text:'Cancel',
+     },{
+      text:'Delete',
+      style:'destructive',
+      onPress:onDelete,
+     }
+    ])
+  }
+
+  const onDelete =()=>{
+    console.log('deleted');
+    
+  }
   return (
     <View style={styles.container}>
-        <Stack.Screen options={{title:"Create Product"}}/>
+      <Stack.Screen
+        options={{ title: isUpdating ? "update Product" : "Create Product" }}
+      />
       <Image
         source={{ uri: image || defaultImage }}
         style={styles.image}
@@ -88,7 +127,12 @@ const CreateScreen = () => {
         keyboardType="numeric"
       />
       <Text style={styles.error}>{errors}</Text>
-      <Button onPress={onCreate} text="Create" />
+      <Button onPress={onsubmit} text={isUpdating ? "Update" : "Create"} />
+      {isUpdating && (
+        <Button onPress={onConfirm}
+        style={{ backgroundColor: 'red' }}
+         text="Delete" />
+      )}
     </View>
   );
 };
@@ -97,31 +141,31 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: {
-    width: '50%',
+    width: "50%",
     aspectRatio: 1,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   textButton: {
-    alignSelf: 'center',
-    fontWeight: 'bold',
+    alignSelf: "center",
+    fontWeight: "bold",
     color: Colors.light.tint,
     marginVertical: 10,
   },
   label: {
-    color: 'gray',
+    color: "gray",
   },
   input: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     padding: 10,
     marginTop: 5,
     marginBottom: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 5,
   },
   error: {
-    color: 'red',
-    textAlign: 'center',
+    color: "red",
+    textAlign: "center",
   },
 });
 
