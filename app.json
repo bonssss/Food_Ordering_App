@@ -37,11 +37,12 @@
           "resizeMode": "contain",
           "backgroundColor": "#fff"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
-      "tsconfigPaths":true
+      "tsconfigPaths": true
     }
   }
 }
