@@ -1,14 +1,13 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "jsx": "react-native",
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@components/*":["src/components"],
-      "@assets/*":["assets/*"]
+      "@/*": ["./*"],
+      "@components/*": ["src/components"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": [
