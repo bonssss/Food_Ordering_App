@@ -5,6 +5,7 @@ import Colors from "../../../constants/Colors";
 import Button from "../../../components/Button";
 import * as ImagePicker from "expo-image-picker";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useInsertProduct } from "@/src/api/products";
 
 const CreateScreen = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -14,13 +15,15 @@ const CreateScreen = () => {
   const { id } = useLocalSearchParams();
   const isUpdating = !!id;
 
+  const { mutate: insertProduct } = useInsertProduct();
+
   const router = useRouter();
-  const resetField =()=>{
+  const resetField = () => {
     setName("");
     setPrice("");
     setImage("");
     router.back();
-  }
+  };
 
   const validateInput = () => {
     setErrors("");
@@ -50,20 +53,26 @@ const CreateScreen = () => {
     if (!validateInput()) {
       return;
     }
+    insertProduct(
+      { name, price: parseFloat(price), image },
+      {
+        onSuccess: () => {
+          resetField();
+        },
+      }
+    );
 
-    console.warn("Creating dish: ", name);
-    resetField();
-   
+    // console.warn("Creating dish: ", name);
   };
 
-  const onUpdate= () => {
+  const onUpdate = () => {
     if (!validateInput()) {
       return;
     }
-    console.log('updating')
+    console.log("updating");
 
-    resetField()
-  }
+    resetField();
+  };
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,22 +89,22 @@ const CreateScreen = () => {
     }
   };
 
-  const onConfirm =() =>{
-    Alert.alert('Delete','Are sure to delete product',[
-     {
-      text:'Cancel',
-     },{
-      text:'Delete',
-      style:'destructive',
-      onPress:onDelete,
-     }
-    ])
-  }
+  const onConfirm = () => {
+    Alert.alert("Delete", "Are sure to delete product", [
+      {
+        text: "Cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: onDelete,
+      },
+    ]);
+  };
 
-  const onDelete =()=>{
-    console.log('deleted');
-    
-  }
+  const onDelete = () => {
+    console.log("deleted");
+  };
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -129,9 +138,11 @@ const CreateScreen = () => {
       <Text style={styles.error}>{errors}</Text>
       <Button onPress={onsubmit} text={isUpdating ? "Update" : "Create"} />
       {isUpdating && (
-        <Button onPress={onConfirm}
-        style={{ backgroundColor: 'red' }}
-         text="Delete" />
+        <Button
+          onPress={onConfirm}
+          style={{ backgroundColor: "red" }}
+          text="Delete"
+        />
       )}
     </View>
   );
