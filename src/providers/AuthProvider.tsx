@@ -5,22 +5,39 @@ import { Session } from "@supabase/supabase-js";
 type AuthData ={
     session : Session | null
     loading :boolean
+    profile :null
+    isAdmin: boolean
 
 }
 
 const AuthContext = createContext<AuthData>({
     session: null,
-    loading:true
+    loading:true,
+    profile:null,
+    isAdmin:false
 });
 
 export default function AuthProvider({children}:PropsWithChildren){
    const [session, setsession] = useState<Session | null>(null)
    const [loading,setLoading] = useState(true)
+   const [profile,setProfile] = useState(null)
     useEffect(()=>{
         const fetchsession = async ()=>{
-          const {data, error} =  await supabase.auth.getSession()
-          setsession(data.session);
+          const {data:{session}} =  await supabase.auth.getSession()
+          setsession(session);
+
+
+          if (session) {
+            // fetch profile
+            const { data } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
+            setProfile(data || null);
+          }
           setLoading(false)
+
           
 
 
@@ -32,7 +49,10 @@ export default function AuthProvider({children}:PropsWithChildren){
 
         
     },[])
-    return <AuthContext.Provider value={{session,loading}}>{children}</AuthContext.Provider>
+console.log(profile);
+
+
+    return <AuthContext.Provider value={{session,loading,profile,isAdmin: profile?.group === 'ADMIN'}}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = ()=> useContext(AuthContext)
