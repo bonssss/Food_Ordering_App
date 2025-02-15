@@ -15,23 +15,50 @@
         |-- adaptive-icon.png
         |-- favicon.png
         |-- icon.png
-        |-- splash-icon.png
+        |-- spalsh-image.png
 |-- expo-env.d.ts
 |-- package-lock.json
 |-- package.json
+|-- SECURITY.md
 |-- src
+    |-- api
+        |-- products
+            |-- index.ts
     |-- app
-        |-- (tabs)
+        |-- (admin)
+            |-- index.tsx
+            |-- menu
+                |-- create.tsx
+                |-- index.tsx
+                |-- [id].tsx
+                |-- _layout.tsx
+            |-- orders
+                |-- list
+                    |-- archive.tsx
+                    |-- index.tsx
+                    |-- _layout.tsx
+                |-- [id].tsx
+                |-- _layout.tsx
+            |-- _layout.tsx
+        |-- (auth)
+            |-- sign-in.tsx
+            |-- sign-up.tsx
+            |-- _layout.tsx
+        |-- (user)
             |-- index.tsx
             |-- menu
                 |-- index.tsx
                 |-- [id].tsx
                 |-- _layout.tsx
-            |-- two.tsx
+            |-- orders
+                |-- index.tsx
+                |-- [id].tsx
+                |-- _layout.tsx
             |-- _layout.tsx
         |-- +html.tsx
         |-- +not-found.tsx
         |-- cart.tsx
+        |-- index.tsx
         |-- modal.tsx
         |-- _layout.tsx
     |-- components
@@ -39,6 +66,8 @@
         |-- CartListItem.tsx
         |-- EditScreenInfo.tsx
         |-- ExternalLink.tsx
+        |-- OrderItemListItem.tsx
+        |-- OrderListItem.tsx
         |-- ProductListItem.tsx
         |-- StyledText.tsx
         |-- Themed.tsx
@@ -50,7 +79,11 @@
             |-- StyledText-test.js
     |-- constants
         |-- Colors.ts
+    |-- lib
+        |-- supabase.ts
     |-- providers
+        |-- AuthProvider.tsx
         |-- CartProvider.tsx
+        |-- QueryProvider.tsx
     |-- types.ts
 |-- tsconfig.json
