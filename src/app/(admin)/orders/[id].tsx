@@ -19,46 +19,41 @@ const OrderDetailScreen = () => {
 
   const { data: order, isLoading, error } = useOrderDetails(id);
 
-  // const order = orders.find((o) => o.id.toString() === id);
+  if (isLoading)
+    return <ActivityIndicator size="large" color={Colors.light.tint} />;
+  if (error)
+    return <Text style={styles.errorText}>Failed to fetch order details.</Text>;
+  if (!order) return <Text style={styles.errorText}>Order not found.</Text>;
 
-  if (isLoading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error) {
-    return <Text>Failed to fetch</Text>;
-  }
+  console.log("order is ", order);
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: `Order #${id}` }} />
 
-      {/* <OrderListItem order={order} /> */}
-
       <FlatList
-        data={order.order_items}
+        data={order.order_item || []} // Ensure it doesn't break if `order_item` is undefined
         renderItem={({ item }) => <OrderItemListItem item={item} />}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ gap: 10 }}
         ListHeaderComponent={() => <OrderListItem order={order} />}
         ListFooterComponent={() => (
           <>
             <Text style={{ fontWeight: "bold" }}>Status</Text>
-            <View style={{ flexDirection: "row", gap: 5 }}>
+            <View style={styles.statusContainer}>
               {OrderStatusList.map((status) => (
                 <Pressable
                   key={status}
                   onPress={() => console.warn("Update status")}
-                  style={{
-                    borderColor: Colors.light.tint,
-                    borderWidth: 1,
-                    padding: 10,
-                    borderRadius: 5,
-                    marginVertical: 10,
-                    backgroundColor:
-                      order.status === status
-                        ? Colors.light.tint
-                        : "transparent",
-                  }}
+                  style={[
+                    styles.statusButton,
+                    {
+                      backgroundColor:
+                        order.status === status
+                          ? Colors.light.tint
+                          : "transparent",
+                    },
+                  ]}
                 >
                   <Text
                     style={{
@@ -83,6 +78,23 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     gap: 10,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 20,
+  },
+  statusContainer: {
+    flexDirection: "row",
+    gap: 5,
+    flexWrap: "wrap",
+  },
+  statusButton: {
+    borderColor: Colors.light.tint,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 10,
   },
 });
 
