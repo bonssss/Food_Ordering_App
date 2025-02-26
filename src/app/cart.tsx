@@ -5,7 +5,6 @@ import { FlatList } from "react-native";
 
 import { useCart } from "../providers/CartProvider";
 import { StyleSheet } from "react-native";
-// import { FlatList } from 'react-native-reanimated/lib/typescript/Animated'
 import CartListItem from "../components/CartListItem";
 import Button from "../components/Button";
 export default function cartScreen() {

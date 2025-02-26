@@ -11,21 +11,22 @@ import OrderItemListItem from "../../../components/OrderItemListItem";
 import OrderListItem from "../../../components/OrderListItem";
 import Colors from "@/src/constants/Colors";
 import { OrderStatusList } from "@/src/types";
-import { useOrderDetails } from "@/src/api/orders";
+import { useOrderDetails, useUpdateOrder } from "@/src/api/orders";
 
 const OrderDetailScreen = () => {
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
 
   const { data: order, isLoading, error } = useOrderDetails(id);
-
+  const { mutate: updateOrder } = useUpdateOrder();
   if (isLoading)
     return <ActivityIndicator size="large" color={Colors.light.tint} />;
   if (error)
     return <Text style={styles.errorText}>Failed to fetch order details.</Text>;
   if (!order) return <Text style={styles.errorText}>Order not found.</Text>;
-
-  console.log("order is ", order);
+  const updateStatus = (status) => {
+    updateOrder({ id: id, updatedField: { status } });
+  };
 
   return (
     <View style={styles.container}>
@@ -44,7 +45,7 @@ const OrderDetailScreen = () => {
               {OrderStatusList.map((status) => (
                 <Pressable
                   key={status}
-                  onPress={() => console.warn("Update status")}
+                  onPress={() => updateStatus(status)}
                   style={[
                     styles.statusButton,
                     {
