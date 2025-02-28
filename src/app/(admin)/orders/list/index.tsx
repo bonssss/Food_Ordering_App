@@ -3,9 +3,16 @@ import OrderListItem from "../../../../components/OrderListItem";
 import { Stack } from "expo-router";
 import { useOrderList } from "@/src/api/orders";
 import { Text } from "react-native";
+import { useEffect } from "react";
+import { supabase } from "@/src/lib/supabase";
+import { useQueryClient } from "@tanstack/react-query";
+import { useInsertOrderSubscription } from "@/src/api/orders/subscription";
 
 export default function OrdersScreen() {
   const { data: orders, error, isLoading } = useOrderList({ archived: false });
+
+  useInsertOrderSubscription();
+
   if (isLoading) {
     return <ActivityIndicator />;
   }
